@@ -29,6 +29,7 @@ urlpatterns = [
     path('pdfstage/', views.home, name='home'),
     path('pdfstage/simple/', views.simple_upload, name='simple_upload'),
     path('pdfstage/form/', views.model_form_upload,name = 'model_form_upload'),
+    path('ReviewStage/',include('ReviewStage.urls')),
 ]
 
 if settings.DEBUG:

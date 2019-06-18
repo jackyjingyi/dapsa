@@ -10,9 +10,6 @@ from pdfminer.pdfpage import PDFPage
 from pdfminer.utils import Plane
 import pdfminer
 import re
-from .pdf_classes.point import Point
-from .pdf_classes.cell import Cell
-from .pdf_classes.cluster import Cluster
 import copy
 import openpyxl
 import pandas as pd
@@ -28,6 +25,20 @@ CHAR_MARGIN = 0.1
 class AnalyzePDF:
     page_dict = {}
     page_warehouse = {}
+    class page_mining:
+
+        def __init__(self, page):
+            self._page_info = None
+            self.pageid = page.pageid
+            self._tables = None
+
+        def __repr__(self):
+            return '<page number : %s >' % (AnalyzePDF.page_dict[self.pageid])
+
+        @property
+        def tables(self):
+            return self._tables
+
 
     def __init__(self, fp, target):
         self.fp = fp
@@ -58,11 +69,14 @@ class AnalyzePDF:
         Point.set_page_points(pageid=page.pageid)
         point_count = 0
         mid_count = 0
+        length = [999,0]
         for element in layout:
             if isinstance(element, LTChar):
                 print(element.fontname)
             elif isinstance(element, pdfminer.layout.LTCurve):
                 print(element)
+                length[0] = min(element.bbox[0], length[0])
+                length[1] = max(element.bbox[3], length[1])
                 point_left_bottom = Point(x=element.bbox[0], y=element.bbox[1], pageid=page.pageid, id=point_count)
                 point_right_top = Point(element.bbox[2], element.bbox[3], pageid=page.pageid, id=point_count + 1)
                 middle_point = Point(x=(element.bbox[0] + element.bbox[2]) / 2,
@@ -115,7 +129,6 @@ class AnalyzePDF:
         Cell.AssignText(pageid=pageid, textlist=textbox)
         Cell.check_text(pageid=pageid)
         return
-
 
 
 

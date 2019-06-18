@@ -1,5 +1,5 @@
 from core_function.pdf_classes.para import PTS,approxiamtion,inside
-from .cell import Cell
+from core_function.pdf_classes.cell import Cell
 import numpy as np
 
 

@@ -63,10 +63,16 @@ class StatusAndNextStep(models.Model):
 
 
 class SpecLevel(models.Model):
-    report_number = models.ForeignKey(ReportInfo, on_delete=models.CASCADE, default='')
-    issue_found = models.ForeignKey(IssuePool, on_delete=models.CASCADE, default='')
-    speck_number = models.CharField(verbose_name='Speck Number', max_length=30)
-    safety_and_regulatory = models.CharField(verbose_name='Safety and Regulatory', max_length=30)
-    incorrect_test_method = models.TextField(verbose_name='Incorrect Test Method on Report')
-    pass
+    auditor = models.CharField(max_length=50,null=True)
+    protocol = models.CharField(max_length=200,null=True)
+    mfp = models.CharField(max_length=200,null=True)
+    section = models.CharField(max_length=200,null=True)
+    description = models.TextField(default='')
+    method = models.CharField(max_length=200,null=True)
+    issue = models.TextField(default='')
+    sr = models.CharField(max_length=200,null=True)
+    addition = models.TextField(default='')
+    remark = models.TextField(default='')
+    audit_date = models.DateField(auto_now=True)
+
 
